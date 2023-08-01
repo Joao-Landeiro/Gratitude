@@ -1,0 +1,207 @@
+/* body {
+    font-family: "Press Start 2P", cursive;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+
+
+
+}
+*/
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    color:rgba(0, 0, 0, 0.8);
+    font-family: "Press Start 2P", sans-serif;
+    background-color: #ffec63;
+    background-image: linear-gradient(
+        45deg,
+        #ffd966 25%,
+        transparent 25%,
+        transparent 75%,
+        #ffd966 75%,
+        #ffd966
+      ),
+      linear-gradient(
+        -45deg,
+        #ffd966 25%,
+        transparent 25%,
+        transparent 75%,
+        #ffd966 75%,
+        #ffd966
+      );
+    background-size: 60px 60px;
+    background-position: 0 0;
+    animation: slide 4s infinite linear;
+  }
+  
+  @keyframes slide {
+    from {
+      background-position: 0 0;
+    }
+  
+    to {
+      background-position: -120px 60px;
+    }
+  }
+  
+
+
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    max-width: 400px; /* Optional: Set a maximum width for the container */
+    width: 100%; /* Optional: Set a specific width for the container */
+    border: 2px solid rgba(0, 0, 0,0.7); 
+    box-shadow: 4px 4px 0px rgba(0, 0, 0,0.7);
+    background-color: #fff; /* Optional: Add a background color for the container */
+  }
+
+/* Styles for the main popup container */
+.popup-container {
+    display: none;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    pointer-events: none; /* Add this line to make the container ignore pointer events */
+}
+
+.gratitude-note-item {
+    padding: 10px;
+    background-color: #45a049;
+    margin: 20px;
+}
+
+.popup-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80%; /* Adjust the width as needed */
+    max-width: 90vw; /* Set the maximum width to 90% of the viewport width */
+    height: 40%;
+    max-height: 70vw;
+    transform: translate(-50%, -50%);
+    border-radius: 0px;
+    display: block; /* Use block to make the content adjust to its size */
+    text-align: left;
+    flex-direction: column; /* Stack elements vertically */
+    justify-content: space-between; /* Align elements to the top and bottom of the container */
+    align-items: center; /* Center elements horizontally */
+    background-color: #f9f9f9;
+    padding: 20px;
+    word-wrap: break-word;
+    overflow-x: hidden;
+    overflow-y: auto; /* Add scrollbar if content overflows vertically */
+    pointer-events: auto; /* Add this line to enable pointer events for the popup content */
+}
+
+.popup-content textarea {
+    flex: 1; /* Let the textarea expand to fill the available space */
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    border: none; /* Remove any border */
+    height: 100px; /* Set the desired height for the textarea */
+    padding: 10px;
+    font-family: "Press Start 2P"; /* Apply the pixel art font to the input */
+    background-color: #ffd966;
+    color: rgba(0, 0, 0, 0.5);
+    resize: none; /* Prevent resizing */
+    outline: none; /* When the element is in focus, it doesn't show the highlight */
+}
+
+.input-area {
+    max-width: 100vw;
+}
+
+/* CSS for the confirmation popup */
+#confirmationPopup {
+    display: none;
+    /* Additional styles for positioning, background, etc. */
+    /* Adjust as needed */
+}
+
+/* Reusable class for main buttons */
+.green-button,
+.delete-button {
+    font-family: "Press Start 2P";
+    font-size: 16px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    width: 100%; /* Set the width to 100% to make all buttons the same width */
+    margin-bottom: 10px; /* Add some space between stacked buttons */
+    outline: none; /* When the element is in focus, it doesn't show the highlight */
+}
+
+.green-button {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.delete-button {
+    background-color: red;
+    color: rgb(82, 12, 12);
+}
+
+/* Apply hover effect to the green and delete buttons */
+.green-button:hover,
+.delete-button:hover {
+    background-color: #45a049; /* Change the background color on hover */
+    /* Add any other styling you want for the hover effect */
+}
+
+/* Apply styles to WebKit-based browsers (Chrome, Safari, etc.) */
+::-webkit-scrollbar {
+    width: 10px; /* Set the width of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+    background-color: #f9f9f9; /* Background color of the track */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #919191; /* Color of the scrollbar thumb */
+}
+
+/* Style for close popups button */
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 20px;
+    cursor: pointer;
+    border: 0px solid #f9f9f9;
+    background-color: #f9f9f9;
+    border-radius: 0;
+    outline: none; /* When the element is in focus, it doesn't show the highlight */
+}
+
+/* Apply hover effect to the close buttons */
+.close-button:hover {
+    color: #5a5a5a; /* Change the background color on hover */
+    /* Add any other styling you want for the hover effect */
+}
+
+/* Flex container for buttons */
+.button-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow buttons to wrap to a new line on smaller screens */
+    justify-content: space-between; /* Distribute buttons with equal spacing between them */
+    max-width: 400px; /* Set the maximum width of the container to prevent them from spreading too wide */
+    margin: 0 auto; /* Center the container horizontally */
+}
