@@ -1,3 +1,62 @@
+
+
+//Common behaviours
+//_________________
+
+// Function to close a popup and perform common actions
+function closePopup(popupId) {
+    const popupContainer = document.getElementById(popupId);
+    popupContainer.style.display = "none"; // Hide the popup
+    
+    // Reset the textarea value to the default placeholder text
+    const noteInput = document.getElementById("noteInput");
+    noteInput.value = "Your default text here...";
+    
+    // Update the list of gratitude notes
+    updateGratitudeNoteList();
+    
+    // Toggle appropriate buttons
+    toggleShowAllNotesButton();
+    toggleRandomNoteButton();
+    
+    // Optionally, you can add more actions here as needed
+    
+    // Play button click sound (if applicable)
+    playButtonClickSound();
+}
+
+
+// Function to close the "Random Gratitude Note" display popup
+function closePopup(displayNotePopup) {    
+}
+
+
+
+
+
+// Event listener for the 'Close' button in the "Add Gratitude Note" popup
+document.getElementById("closePopupInputBtn").addEventListener("click", function () {
+    closeAddGratitudeNotePopup();
+});
+
+// Event listener for the 'Close' button in the "Random Gratitude Note" display popup
+document.getElementById("closePopupDisplayBtn").addEventListener("click", function () {
+    closePopupDisplay();
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Function to count all gratitude notes
 function countGratitudeNotes() {
     const storedGratitudeNotes = localStorage.getItem("gratitudeNotes");
@@ -205,11 +264,7 @@ function displayGratitudeNotePopup(gratitudeNote) {
     popupContainer.style.display = "block";
 }
 
-// Function to close the "Random Gratitude Note" display popup
-function closePopupDisplay() {
-    const popupContainer = document.getElementById("displayNotePopup");
-    popupContainer.style.display = "none";
-}
+
 
 // Function to delete the currently displayed gratitude note
 function deleteGratitudeNote() {
@@ -237,6 +292,10 @@ function deleteGratitudeNote() {
 // Function to close the "Add Gratitude Note" popup
 function closeAddGratitudeNotePopup() {
     hideAddGratitudeNotePopup();
+     // Reset the textarea value to the default placeholder text
+     noteInput.value = "Your default text here...";
+     updateGratitudeNoteList();
+    
 }
 
 function hideAddGratitudeNotePopup() {
