@@ -6,7 +6,17 @@
     <title>Gratitude Jar App</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <audio id="buttonClickSound" src="btn_sound.mp3"></audio>
+    <audio id="Sound-cancel" src="./SFX/SFX_UI_Cancel.mp3"></audio>
+    <audio id="Sound-save" src="./SFX/SFX_UI_Saved.mp3"></audio>
+    <audio id="Sound-open" src="./SFX/SFX_UI_OpenMenu.mp3"></audio>
+    <audio id="Sound-delete" src="./SFX/SFX_UI_Unequip.mp3"></audio>
+    <audio id="Sound-close" src="./SFX/SFX_UI_Exit.mp3"></audio>
+
+
+
+
+
+
 </head>
 <body>
     <!-- Main container -->
@@ -14,51 +24,45 @@
         <h1>Gratitude Jar App</h1>
         <h4>Use me to practice gratitude and to remember what you're grateful for</h4>
         <div id="gratitudeNoteCounter">
-            Total Gratitude Notes: <span id="count">0</span>
+            Total Gratitude Notes: <span id="homepageNoteCounter">0</span>
         </div>
-        <div class="button-container">
-            <button class="green-button" id="addNoteBtn">Add a Gratitude Note</button>
-            <button class="green-button" id="shakeJarBtn" style="display: none;">Get a Random Note</button>
-            <button class="green-button" id="showListPopup" style="display: none;">See all notes</button>
-            <button class="green-button" id="aboutBtn">About this</button>
+        <div class="main-button-container">
+            <button class="button-main" id="addNoteBtn">Add a Gratitude Note</button>
+            <button class="button-main" id="shakeJarBtn" style="display: none;">Get a Random Note</button>
+            <button class="button-main" id="showNoteListPopupBtn" style="display: none;">See all notes</button>
+            <button class="button-main" id="aboutBtn">About this</button>
         </div>
 
     </div>
 
     <!-- Popups -->
-    <div class="popup-container" id="addNotePopup">
+    <div class="popup-container" id="PopupWriteNote">
         <div class="popup-content">
             <h4>Write something you're grateful for</h4>
             <div class="input-area">
-                <textarea id="noteInput" rows="4" onfocus="clearDefaultValue()" maxlength="120">Your default text here...</textarea>
+                <textarea id="noteInput" rows="4" maxlength="120">Your default text here...</textarea>
                 <div id="characterCount">0 / 120</div>
             </div>
-            <button class="green-button" id="saveNoteBtn">Save note</button>
+            <button class="button-main" id="saveNoteBtn">Save note</button>
             <button class="close-button" id="closePopupInputBtn">x</button>
         </div>
     </div>
-    <div class="popup-container" id="displayNotePopup">
+    <div class="popup-container" id="PopupShowNote">
         <div class="popup-content">
             <h6>Random Gratitude Note</h6>
             <p id="randomNoteContent"></p>
             <button class="close-button" id="closePopupDisplayBtn">x</button>
             <button class="delete-button" id="deleteNoteBtn">Delete Note</button>
-        </div>
-    </div>
-
-    <!-- Confirmation popup container -->
-    <div class="popup-container" id="confirmationPopup">
-        <div class="popup-content">
-            <h4>Are you sure you want to delete this note?</h4>
-            <div class="button-container">
-                <button class="green-button" id="confirmDeleteBtn">Confirm</button>
-                <button class="green-button" id="cancelDeleteBtn">Cancel</button>
+            
+            <div class="main-button-container-hz" id="PopupConfirmDelete" style="display: none;">
+                <button class="button-main" id="confirmDeleteBtn">Confirm</button>
+                <button class="button-main" id="cancelDeleteBtn">Cancel</button>
             </div>
+
         </div>
     </div>
-
     <!-- About popup container -->
-    <div class="popup-container" id="aboutPopup">
+    <div class="popup-container" id="PopupAbout">
         <div class="popup-content">
             <h4>About Gratitude Jar App</h4>
             <p>This website allows you to practice gratitude and remember the things you're grateful for by saving notes in a virtual gratitude jar.</p>
@@ -69,13 +73,13 @@
     </div>
 
     <!-- List Gratitude Notes Popup -->
-<div class="popup-container" id="NoteListPopup">
+<div class="popup-container" id="PopupNoteList">
     <div class="popup-content">
       <h2>List of Gratitude Notes</h2>
-        <div id="gratitudeNoteListContainer">
+        <div id="ContainerGratitudeNoteList">
             <h3>All Gratitude Notes</h3>
-            <div id="gratitudeNotesList"></div>
-            <button class="close-button" id="closePopupNoteListBtn">x</button>
+            <div id="NoteList"></div>
+            <button class="close-button" id="BtnClosePopupNoteList">x</button>
         </div>
     </div>
   </div>
