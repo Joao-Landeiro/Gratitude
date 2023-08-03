@@ -3,6 +3,13 @@
 //DOM loader event listener. should encompass all the code
 document.addEventListener("DOMContentLoaded", function () {
 
+// Function to ensure that Local Storage is Ready
+    function isLocalStorageReady() {
+        const storedGratitudeNotes = localStorage.getItem("gratitudeNotes");
+        return !!storedGratitudeNotes; // Return true if data is present, false if not
+    }
+    
+
 
 //FUNCTIONS RELATED TO OVERAL USABILITY
 
@@ -87,7 +94,7 @@ function updateCounter() {
 
 //FUNCTIONS RELATED TO HOME SCREEN - TOGGLING BUTTONS
 
-// Function to show or hide the "See all notes" button based on the presence of notes
+// Function to show or hide the "Shake the jar" button based on the presence of notes
 function toggleButtonShakeJar() {
     const gratitudeNotes = getAllGratitudeNotes();
     const shakeJarBtn = document.getElementById("shakeJarBtn");
@@ -341,7 +348,11 @@ function deleteGratitudeNote() {
 
 // Event Listener for the button that shows all notes
 document.getElementById("showNoteListPopupBtn").addEventListener("click", function () {
-    showPopupNoteList();
+    if (isLocalStorageReady()) {
+        showPopupNoteList();
+    } else {
+        console.log("Local storage data is not yet ready. Please try again.");
+    }
 });
 
 // Function to show the "PopupNoteList" popup
