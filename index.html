@@ -18,9 +18,25 @@
 
 
 </head>
+  
+
+
+
+
 <body>
+      <!-- Loader element 
+      <div id="loader">
+        <div> <p> Loading... </p></div>
+        <div class="loader-spinner"></div>
+    </div>
+    -->
+    <!-- Canvas for the random notes -->
+    <div id="NoteList" class="NoteList"></div>
+
     <!-- Main container -->
-    <div class="container">
+    <button id="CloseTurboModeBtn" class="button-main">Close Turbo Mode</button>
+
+    <div class="container" id="containerDiv">
         <h1>Gratitude Jar App</h1>
         <h4>Use me to practice gratitude and to remember what you're grateful for</h4>
         <div id="gratitudeNoteCounter">
@@ -29,13 +45,36 @@
         <div class="main-button-container">
             <button class="button-main" id="addNoteBtn">Add a Gratitude Note</button>
             <button class="button-main" id="shakeJarBtn" style="display: none;">Read a Gratitude Note</button>
-            <button class="button-main" id="showNoteListPopupBtn" style="display: none;">See all notes</button>
+            <button id="TurboModeBtn" class="button-main-loader">Turbo Mode
+                <div class="progress-bar">
+                    <div class="progress" id="progress"> </div>
+                </div>
+            </button>
             <button class="button-main" id="aboutBtn">About this</button>
+
+            
         </div>
+
 
     </div>
 
+
+
     <!-- Popups -->
+    <!-- Popup sign up  -->
+    <div class="popup-container" id="Popupsignup">
+    <div class= "popup-content-tall" id="Popupsignupcontent">
+        <iframe src="https://12products12months.substack.com/embed" width="480" height="320" style="border:1px solid #EEE; background:white;" frameborder="0" scrolling="no"></iframe>
+        <button class="close-button" id="closePopupSignuptBtn">x</button>
+    <p> giving me your email will sign you up for updates on this project and some others that I'm working on.<br>
+    you do not have to sign up, but it's a good way to make sure to remember this app and be able to use it and feel grateful.</p>
+    </div>
+</div>
+
+
+
+
+
     <div class="popup-container" id="PopupWriteNote">
         <div class="popup-content">
             <h4>Write something you're grateful for</h4>
@@ -63,11 +102,12 @@
     </div>
     <!-- About popup container -->
     <div class="popup-container" id="PopupAbout">
-        <div class="popup-content">
+        <div class="popup-content-tall">
             <h4>About Gratitude Jar App</h4>
             <p>This website allows you to practice gratitude and remember the things you're grateful for by saving notes in a virtual gratitude jar.</p>
             <p></p>
             <p>Developed by João Landeiro in 2023.</p>
+            <iframe src="https://12products12months.substack.com/embed" width="480" height="320" style="border:1px solid #EEE; background:white;" frameborder="0" scrolling="no"></iframe>
             <button class="close-button" id="closePopupAboutBtn">x</button>
         </div>
     </div>
@@ -78,7 +118,7 @@
       <h2>List of Gratitude Notes</h2>
         <div id="ContainerGratitudeNoteList">
             <h3>All Gratitude Notes</h3>
-            <div id="NoteList"></div>
+            
             <button class="close-button" id="BtnClosePopupNoteList">x</button>
         </div>
     </div>

@@ -3,11 +3,15 @@
 //DOM loader event listener. should encompass all the code
 document.addEventListener("DOMContentLoaded", function () {
 
-// Function to ensure that Local Storage is Ready
-    function isLocalStorageReady() {
-        const storedGratitudeNotes = localStorage.getItem("gratitudeNotes");
-        return !!storedGratitudeNotes; // Return true if data is present, false if not
-    }
+    // function to set delay of scattering notes
+    const delay = 200; // Adjust this value as desired
+
+
+// Function to ensure that Local Storage is Ready - commented out because we are working with page load stuff
+//    function isLocalStorageReady() {
+//       const storedGratitudeNotes = localStorage.getItem("gratitudeNotes");
+//        return storedGratitudeNotes; // Return true if data is present, false if not
+//    }
     
 
 
@@ -53,9 +57,29 @@ function playOpen() {
     audio.play();
 }
 
+//FUNCTIONS RELATED TO OVERAL USABILITY - ANIMATIONS
 
+function animateContainer() {
+    const mainContainer = document.getElementById("containerDiv");
+    mainContainer.classList.add("note-added");
+  
+    // After a delay, remove the class to allow for future animations
+    setTimeout(() => {
+      mainContainer.classList.remove("note-added");
+    }, 1000); // Adjust the delay as needed
+  }
 
+/* Function to hide the loader when the page is fully loaded
+function hideLoader() {
+    const loader = document.getElementById("loader");
+    loader.style.display = "none";
+}
 
+// Listen for the 'load' event of the window to hide the loader
+window.addEventListener("load", hideLoader);
+console.log("Page loaded function called");
+
+*/
 
 
 
@@ -68,6 +92,19 @@ function getAllGratitudeNotes() {
         return [];
     }
 }
+
+//Function that creates a progress bar within the See All notes button
+
+function updateProgressBar() {
+    const progressBar = document.getElementById("progress");
+    const totalGratitudeNotes = countGratitudeNotes();
+    const maxNotes = 5; // Set the maximum number of notes for 100% progress
+
+    const progressPercentage = (totalGratitudeNotes / maxNotes) * 100;
+    progressBar.style.width = `${progressPercentage}%`;
+}
+updateProgressBar();
+
  
 
 
@@ -107,19 +144,67 @@ function toggleButtonShakeJar() {
 // RUN THE FUNCTION THAT DECIDES IF SHAKE JAR BUTTON IS VISIBLE OR NOT
 toggleButtonShakeJar();
 
-// Function to show or hide the "See all notes" button based on the presence of notes
-function toggleShowAllNotesButton() {
+
+// Function related to the Turbo Mode function
+
+// Function to show or hide the "Turbo Mode" button based on the presence of notes
+function toggleTurboModeButton() {
     const gratitudeNotes = getAllGratitudeNotes();
-    const showAllNotesButton = document.getElementById("showNoteListPopupBtn");
+    const turboModeButton = document.getElementById("TurboModeBtn");
     if (gratitudeNotes.length > 0) {
-        showAllNotesButton.style.display = "block"; // Show the button if there are notes
+        turboModeButton.style.display = "block"; // Show the button if there are notes
     } else {
-        showAllNotesButton.style.display = "none"; // Hide the button if there are no notes
+        turboModeButton.style.display = "none"; // Hide the button if there are no notes
     }
 }
-// RUN THE FUNCTION THAT DECIDES IF SHOW ALL NOTES BUTTON IS VISIBLE OR NOT
-toggleShowAllNotesButton();
 
+// Function to update the "Turbo Mode" button based on the presence of notes
+function updateTurboModeButton() {
+    const gratitudeNotes = getAllGratitudeNotes();
+    const turboModeButton = document.getElementById("TurboModeBtn");
+
+    if (gratitudeNotes.length >= 5) {
+        turboModeButton.style.display = "block"; // Show the button if there are 5 or more notes
+        turboModeButton.classList.remove("few-notes-style"); // Remove the special style
+        turboModeButton.disabled = false; // Enable the button
+    } else {
+        turboModeButton.style.display = "block"; // Show the button
+        turboModeButton.classList.add("few-notes-style"); // Apply the special style
+        turboModeButton.disabled = true; // Disable the button
+    }
+}
+
+// Call the function to update the "Turbo Mode" button initially
+updateTurboModeButton();
+
+// RUN THE FUNCTION THAT DECIDES IF SHOW ALL NOTES BUTTON IS VISIBLE OR NOT
+toggleTurboModeButton();
+
+
+//Functions to make the Close Turbo Mode visible or not
+function showCloseTurboModeButton() {
+    const closeTurboModeButton = document.getElementById("CloseTurboModeBtn");
+    closeTurboModeButton.style.display = "block";
+}
+
+
+function hideCloseTurboModeButton() {
+    const closeTurboModeButton = document.getElementById("CloseTurboModeBtn");
+    const scatteredNotes = document.querySelectorAll(".random-notes"); // Select all scattered notes
+
+    closeTurboModeButton.style.display = "none";
+
+    // Hide the scattered notes
+    scatteredNotes.forEach((note) => {
+        note.style.display = "none";
+    });
+}
+
+
+// Event listener for the "Close Turbo Mode" button
+document.getElementById("CloseTurboModeBtn").addEventListener("click", function () {
+    hideCloseTurboModeButton();
+});
 
 /*    _ __   ___  _ __  _   _ _ __  ___ 
     | '_ \ / _ \| '_ \| | | | '_ \/ __|
@@ -173,6 +258,9 @@ function saveGratitudeNote() {
         saveGratitudeNoteToLocalStorage(note);
         updateCounter();
         playSaved();
+        animateContainer();
+        updateTurboModeButton();
+        console.log("animateContainer function called");
     }
 }
 
@@ -187,8 +275,12 @@ function saveGratitudeNoteToLocalStorage(note) {
     gratitudeNotes.push(newNote);
     localStorage.setItem("gratitudeNotes", JSON.stringify(gratitudeNotes));
     toggleButtonShakeJar(); // Checks if the Shake Jar button should be on or off
-    toggleShowAllNotesButton(); // Checks if the Show All Notes button should be on or off
+    toggleTurboModeButton(); // Checks if the Show All Notes button should be on or off
     resetPlaceholderValue();
+    playSaved();
+    animateContainer();
+    updateProgressBar();
+    console.log("animateContainer function called");
 }
 
 //FUNCTIONS RELATED TO ADD NEW NOTE POPUP - UX FUNCTIONS
@@ -322,6 +414,8 @@ document.getElementById("confirmDeleteBtn").addEventListener("click", function (
     deleteGratitudeNote();
     const PopupConfirmDelete = document.getElementById("PopupConfirmDelete");
     playDelete();
+    updateProgressBar();
+    updateTurboModeButton();
     PopupConfirmDelete.style.display = "none";
 });
 
@@ -339,46 +433,30 @@ function deleteGratitudeNote() {
             }
             updateCounter(); // Update the counter after deleting the note
             toggleButtonShakeJar(); // Checks if the Shake Jar button should be on or off
-            toggleShowAllNotesButton(); // Checks if the Show All Notes button should be on or off
+            toggleTurboModeButton(); // Checks if the Show All Notes button should be on or off
 
         }
     }
-
-// FUNCTIONS RELATED TO SEE ALL NOTES POPUP - OPEN AND CLOSE FUNCTIONS
-
-// Event Listener for the button that shows all notes
-document.getElementById("showNoteListPopupBtn").addEventListener("click", function () {
-    if (isLocalStorageReady()) {
-        showPopupNoteList();
-    } else {
-        console.log("Local storage data is not yet ready. Please try again.");
-    }
-});
-
-// Function to show the "PopupNoteList" popup
-function showPopupNoteList() {
-    const popupContainer = document.getElementById("PopupNoteList");
-    popupContainer.style.display = "block";
-    playOpen();
-    console.log("showPopupNoteList function called");
-}
-
 // Event listener for the 'Close' button in the "Random Gratitude Note" display popup
 document.getElementById("BtnClosePopupNoteList").addEventListener("click", function () {
     closePopupNoteList();
 });
 
-// Function to make the "Notes List" popup, invisible
-function closePopupNoteList() {
-    const popupContainer = document.getElementById("PopupNoteList");
-    popupContainer.style.display = "none";
-    playClose();
-    console.log("closePopupNoteList function called");
-}
+// FUNCTIONS RELATED TO SEE ALL NOTES POPUP - OPEN AND CLOSE FUNCTIONS
+
+
+// Event Listener for the button that shows all notes
+document.getElementById("TurboModeBtn").addEventListener("click", function () {
+        displayGratitudeNotesList();
+        console.log("displayGratitudeNotesList function called");
+
+});
+
+
+
 
 // FUNCTIONS RELATED TO SEE ALL NOTES POPUP - DISPLAY LIST OF NOTES
 
-// Function to display all gratitude notes in a list format
 function displayGratitudeNotesList() {
     const gratitudeNotes = getAllGratitudeNotes();
     const listContainer = document.getElementById("NoteList");
@@ -396,18 +474,63 @@ function displayGratitudeNotesList() {
         gratitudeNotes.forEach((note, index) => {
             const listItem = document.createElement("div");
             listItem.textContent = note.content;
-            listItem.classList.add("gratitude-note-item");
+            listItem.classList.add("random-notes"); // Add the random-notes class
             listItem.setAttribute("data-index", index);
             listItem.setAttribute("data-note", JSON.stringify(note)); // Store the entire note object
-            listItem.addEventListener("click", () => {
-            });
-            listContainer.appendChild(listItem);
+            listContainer.appendChild(listItem); // Append to NoteList container
+
+            // Remove the hiding class to make the note visible
+            listItem.classList.remove("hidden");
+            showCloseTurboModeButton();
+            // Scatter the note randomly with a delay
+            setTimeout(() => {
+                const randomX = Math.floor(Math.random() * (window.innerWidth - listItem.clientWidth));
+                const randomY = Math.floor(Math.random() * (window.innerHeight - listItem.clientHeight));
+
+                listItem.style.position = "absolute";
+                listItem.style.left = randomX + "px";
+                listItem.style.top = randomY + "px";
+                listItem.style.opacity = 1; // Make the note visible
+            }, index * delay); // Add a delay for each note based on its index
         });
     }
 }
 
-// Call the function to display the updated list of gratitude notes
-displayGratitudeNotesList();
+
+
+
+
+
+// FUNCTIONS RELATED TO THE SIGNUP POPUP
+
+// Event listener for the 'Close' button inside of the Random popup
+document.getElementById("closePopupSignuptBtn").addEventListener("click", function () {
+    ClosePopupSignup();
+});
+
+// Function to make the "Signup" popup, invisible
+function ClosePopupSignup() {
+    const popupContainer = document.getElementById("Popupsignup");
+    popupContainer.style.display = "none";
+    playClose();
+    console.log("Popupsignup function called");
+}
+
+
+
+
+/*
+__, _ _,  __,   _, _  _, _, _ ___
+|_  | |   |_    |\/| / _ |\/|  | 
+|   | | , |     |  | \ / |  |  | 
+~   ~ ~~~ ~~~   ~  ~  ~  ~  ~  ~ 
+                                 
+*/
+
+//FUNCTIONS RELATED TO FILE MANAGEMENT
+
+
+
 
 /*this must be the end of the code that stays within the DOM loader event listener, never change this */
 })
