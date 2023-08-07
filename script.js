@@ -34,27 +34,38 @@ document.addEventListener("keydown", function (event) {
 
 function playCancel() {
     var audio = document.getElementById("Sound-cancel");
+    audio.currentTime = 0; // Reset the audio to the beginning
     audio.play();
 }
 
 function playClose() {
     var audio = document.getElementById("Sound-close");
+    audio.currentTime = 0; // Reset the audio to the beginning
     audio.play();
 }
 
 function playSaved() {
     var audio = document.getElementById("Sound-save");
+    audio.currentTime = 0; // Reset the audio to the beginning
     audio.play();
 }
 
 function playDelete() {
     var audio = document.getElementById("Sound-delete");
+    audio.currentTime = 0; // Reset the audio to the beginning
     audio.play();
 }
 
 function playOpen() {
     var audio = document.getElementById("Sound-open");
+    audio.currentTime = 0; // Reset the audio to the beginning
     audio.play();
+}
+
+function playTurbo() {
+var audio = document.getElementById("Sound-Turbo");
+audio.currentTime = 0; // Reset the audio to the beginning
+audio.play();
 }
 
 //FUNCTIONS RELATED TO OVERAL USABILITY - ANIMATIONS
@@ -81,6 +92,19 @@ console.log("Page loaded function called");
 
 */
 
+//Functions related to overal usability - character counter
+// Get references to the necessary elements
+const noteInputcharcount = document.getElementById("noteInput");
+const characterCount = document.getElementById("characterCount");
+
+// Add an input event listener to the textarea
+noteInputcharcount.addEventListener("input", function () {
+    const currentCount = noteInputcharcount.value.length;
+    const maxLength = parseInt(noteInputcharcount.getAttribute("maxlength"), 10);
+    
+    // Update the character count display
+    characterCount.textContent = `${currentCount} / ${maxLength}`;
+});
 
 
 // Function to get all gratitude notes from local storage
@@ -193,6 +217,7 @@ function hideCloseTurboModeButton() {
     const scatteredNotes = document.querySelectorAll(".random-notes"); // Select all scattered notes
 
     closeTurboModeButton.style.display = "none";
+    playClose(); 
 
     // Hide the scattered notes
     scatteredNotes.forEach((note) => {
@@ -236,7 +261,9 @@ document.getElementById("closePopupInputBtn").addEventListener("click", function
         const popupContainer = document.getElementById("PopupWriteNote");
         popupContainer.style.display = "none";
         resetPlaceholderValue();
+        resetCharacterCounter();
         playClose();
+
         console.log("ClosePopupWriteNote function called");
 
     }
@@ -304,6 +331,39 @@ function saveGratitudeNoteToLocalStorage(note) {
         textarea.value = "Your default text here...";
     }
 
+
+
+// Function to disable save note button unless user has typed something
+    // Get references to the necessary elements
+const noteInputHastyped = document.getElementById("noteInput");
+const characterCounttyped = document.getElementById("characterCount");
+const saveNoteBtn = document.getElementById("saveNoteBtn");
+
+// Disable the "Save note" button by default
+saveNoteBtn.disabled = true;
+
+// Add an input event listener to the textarea
+noteInputHastyped.addEventListener("input", function () {
+    const currentText = noteInputHastyped.value;
+    
+    // Enable the "Save note" button if there is non-placeholder text
+    saveNoteBtn.disabled = currentText === noteInputHastyped.getAttribute("placeholder") || currentText.trim() === "";
+
+    const maxLength = parseInt(noteInputHastyped.getAttribute("maxlength"), 10);
+    
+    // Check if the current text is the placeholder text
+    if (currentText === noteInputHastyped.getAttribute("placeholder")) {
+        haracterCounttyped.textContent = `0 / ${maxLength}`;
+    } else {
+        const currentCount = currentText.length;
+        // Update the character count display
+        haracterCounttyped.textContent = `${currentCount} / ${maxLength}`;
+    }
+});
+
+function resetCharacterCounter() {
+    characterCount.textContent = `0 / ${parseInt(noteInput.getAttribute("maxlength"), 10)}`;
+}
 
 //FUNCTIONS RELATED TO ABOUT POPUP
 
@@ -491,6 +551,7 @@ function displayGratitudeNotesList() {
                 listItem.style.left = randomX + "px";
                 listItem.style.top = randomY + "px";
                 listItem.style.opacity = 1; // Make the note visible
+                playTurbo();
             }, index * delay); // Add a delay for each note based on its index
         });
     }
