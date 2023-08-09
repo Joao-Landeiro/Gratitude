@@ -285,9 +285,7 @@ function saveGratitudeNote() {
         saveGratitudeNoteToLocalStorage(note);
         updateCounter();
         playSaved();
-        animateContainer();
         updateTurboModeButton();
-        console.log("animateContainer function called");
     }
 }
 
@@ -307,7 +305,7 @@ function saveGratitudeNoteToLocalStorage(note) {
     playSaved();
     animateContainer();
     updateProgressBar();
-    console.log("animateContainer function called");
+    console.log("animateContainer after savefunction called");
 }
 
 //FUNCTIONS RELATED TO ADD NEW NOTE POPUP - UX FUNCTIONS
@@ -342,6 +340,7 @@ const saveNoteBtn = document.getElementById("saveNoteBtn");
 // Disable the "Save note" button by default
 saveNoteBtn.disabled = true;
 
+
 // Add an input event listener to the textarea
 noteInputHastyped.addEventListener("input", function () {
     const currentText = noteInputHastyped.value;
@@ -349,15 +348,21 @@ noteInputHastyped.addEventListener("input", function () {
     // Enable the "Save note" button if there is non-placeholder text
     saveNoteBtn.disabled = currentText === noteInputHastyped.getAttribute("placeholder") || currentText.trim() === "";
 
+ // Add or remove the disabled button style
+ if (saveNoteBtn.disabled) {
+    saveNoteBtn.classList.add("disabled-main");
+} else {
+    saveNoteBtn.classList.remove("disabled-main");
+}
     const maxLength = parseInt(noteInputHastyped.getAttribute("maxlength"), 10);
     
     // Check if the current text is the placeholder text
     if (currentText === noteInputHastyped.getAttribute("placeholder")) {
-        haracterCounttyped.textContent = `0 / ${maxLength}`;
+        characterCounttyped.textContent = `0 / ${maxLength}`;
     } else {
         const currentCount = currentText.length;
         // Update the character count display
-        haracterCounttyped.textContent = `${currentCount} / ${maxLength}`;
+        characterCounttyped.textContent = `${currentCount} / ${maxLength}`;
     }
 });
 
@@ -557,6 +562,19 @@ function displayGratitudeNotesList() {
     }
 }
 
+// Function to make the random notes sway randomly
+// Function to generate a random delay value
+function getRandomDelay() {
+    return Math.random() * 5; // Adjust the value as needed
+}
+
+// Get all random-notes elements
+const randomNotesList = document.querySelectorAll('.random-notes');
+
+// Apply animation and random delay to each random-notes element
+randomNotesList.forEach((note) => {
+    note.style.animation = `sway 3s infinite ${getRandomDelay()}s`;
+});
 
 
 

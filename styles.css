@@ -1,14 +1,4 @@
-/* body {
-    font-family: "Press Start 2P", cursive;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-    background-color: #f5f5f5;
 
-
-
-}
-*/
 
 /* colors
 light yellow #ffec63
@@ -222,7 +212,8 @@ body {
 
 /* Reusable class for main buttons */
 .button-main,
-.delete-button {
+.delete-button,
+.disabled-main {
     font-family: "Press Start 2P";
     font-size: 16px;
     padding: 10px 20px;
@@ -240,9 +231,30 @@ body {
 }
 
 .delete-button {
-    background-color: red;
+    background-color: #c94d4d;
     color: rgba(0, 0, 0, 0.8);
 }
+
+.disabled-main {
+    background-color: #919191;
+    color: rgba(0, 0, 0, 0.4);
+    /*animation: pulse 1s infinite;*/
+}
+/*
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+*/
+
+
 
 /* Apply hover effect to the green and delete buttons */
 .button-main:hover,
@@ -250,6 +262,12 @@ body {
     background-color: #45a049; /* Change the background color on hover */
     /* Add any other styling you want for the hover effect */
 }
+
+.disabled-main:hover {
+    background-color: #626a63; /* Change the background color on hover */
+    /* Add any other styling you want for the hover effect */
+}
+
 
 /* Apply styles to WebKit-based browsers (Chrome, Safari, etc.) */
 ::-webkit-scrollbar {
@@ -333,8 +351,10 @@ body {
     position: absolute; /* Start off-screen */
     left: -9999px;
     top: -9999px;
-    width: 20vw;
-    height: 40vh;
+    width: 200px;
+    height: 200px;
+    max-width: 80vw;
+    max-height: 80vw;
     background-color: #f9f9f9; /* Set your desired background color */
     border: 2px solid rgba(0, 0, 0, 0.8); /* Set your desired border color */
     box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.8);
@@ -349,9 +369,21 @@ body {
     z-index: 1000;
     word-wrap: break-word; /* Allow long words to wrap within the note card */
     line-height: 2; /* Adjust the line height as needed */
+    animation: sway 3s infinite 0s; /* Adjust duration and other animation properties as needed */
 
 
 }
+@keyframes sway {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+
+
 
 
 .NoteList {
